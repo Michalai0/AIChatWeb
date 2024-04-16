@@ -44,7 +44,7 @@ export function Card(props: { children: JSX.Element[]; className?: string }) {
 
 export function ListItem(props: {
   title?: string;
-  subTitle?: string;
+  subTitle?: React.ReactNode;
   children?: JSX.Element | JSX.Element[];
   icon?: JSX.Element;
   hideTitle?: boolean;

@@ -6,7 +6,7 @@ import { getClientConfig } from "./config/client";
 import { type Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "AI Chat Web",
+  title: "Kiwi Chat",
   description: "Your personal AI Chat Bot.",
   viewport: {
     width: "device-width",
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     { media: "(prefers-color-scheme: dark)", color: "#151515" },
   ],
   appleWebApp: {
-    title: "AI Chat Web",
+    title: "Kiwi Chat",
     statusBarStyle: "default",
   },
 };

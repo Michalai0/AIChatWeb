@@ -4,6 +4,7 @@ import styles from "./home.module.scss";
 
 import { IconButton } from "./button";
 import SettingsIcon from "../icons/settings.svg";
+import SyncIcon from "../icons/sync.svg";
 import GithubIcon from "../icons/github.svg";
 import BookOpenIcon from "../icons/book-open.svg";
 import NoticeIcon from "../icons/notice.svg";
@@ -218,7 +219,7 @@ export function NoticeModel(props: {
               checked={notShowToday}
               onChange={() => setNotShowToday(!notShowToday)}
             />
-            今日不再弹出
+            {Locale.Home.NoPopUP}
           </div>
         }
       >
@@ -260,6 +261,38 @@ export function SideBar(props: {
 
   const logoLoading = props.logoLoading;
   const logoUrl = props.logoUrl;
+
+  const [isClickable, setIsClickable] = useState(true); // 控制按钮是否可以点击
+
+  useEffect(() => {
+    let timer: NodeJS.Timeout; // 显式声明timer类型为 NodeJS.Timeout
+    if (!isClickable) {
+      timer = setTimeout(() => {
+        setIsClickable(true);
+      }, 5000); // 设置5秒后重新激活按钮
+    }
+    return () => clearTimeout(timer); // 清理定时器
+  }, [isClickable]);
+
+  const handleClick = async () => {
+    if (!isClickable) return; // 如果按钮不可点击，则直接返回
+
+    setIsClickable(false); // 点击后立即设置按钮不可点击
+
+    try {
+      showToast("Synchronizing...");
+      const syncResult = await chatStore.syncSessions(authStore.token);
+      if (syncResult) {
+        navigate(Path.Chat);
+        showToast("Synchronization Successful!");
+      } else {
+        showToast("Synchronization Failed.");
+      }
+    } catch (error) {
+      showToast("Synchronization Error.");
+      console.error("Error syncing sessions:", error);
+    }
+  };
 
   return (
     <div
@@ -352,6 +385,38 @@ export function SideBar(props: {
               <IconButton icon={<SettingsIcon />} shadow />
             </Link>
           </div>
+
+          <div className={styles["sidebar-action"]}>
+            <IconButton
+              icon={<SyncIcon />}
+              //text={shouldNarrow ? undefined : Locale.Home.NewChat}
+              onClick={async () => {
+                if (!isClickable) return; // 如果按钮不可点击，则直接返回
+                setIsClickable(false); // 点击后立即设置按钮不可点击
+                try {
+                  showToast(Locale.Sidebar.synchronizing);
+                  const syncResult = await chatStore.syncSessions(
+                    authStore.token,
+                  );
+                  if (syncResult) {
+                    // 如果同步成功，弹出同步成功的提示
+                    navigate(Path.Chat);
+                    showToast(Locale.Sidebar.SynchronizationSuccess);
+                  } else {
+                    // 处理同步失败的情况
+                    showToast(Locale.Sidebar.SynchronizationFail);
+                  }
+                } catch (error) {
+                  // 处理异常情况，例如显示错误信息
+                  showToast(Locale.Sidebar.SynchronizationError);
+                  console.error("Error syncing sessions:", error);
+                }
+              }}
+              disabled={!isClickable} // 使用 isClickable 状态来禁用或启用按钮
+              //style={{ boxShadow: '0px 3px 5px rgba(0,0,0,0.3)' }}  // 添加阴影效果
+            />
+          </div>
+
           {props.noticeTitle || props.noticeContent ? (
             <div className={styles["sidebar-action"]}>
               <IconButton

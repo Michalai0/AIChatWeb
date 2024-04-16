@@ -83,6 +83,7 @@ export function Register(props: { logoLoading: boolean; logoUrl?: string }) {
     return uuid;
   }
 
+  const [agreedToTerms, setAgreedToTerms] = useState(false); // 状态声明
   const [captchaId] = useState("register-" + generateUUID());
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -96,6 +97,7 @@ export function Register(props: { logoLoading: boolean; logoUrl?: string }) {
   const [comfirmedPassword, setComfirmedPassword] = useState("");
   const [captchaInput, setCaptchaInput] = useState("");
   const [inviteCode, setInviteCode] = useState(code || "");
+
   function handleClickSendEmailCode() {
     if (email === null || email === "") {
       showToast(Locale.RegisterPage.Toast.EmailIsEmpty);
@@ -157,6 +159,10 @@ export function Register(props: { logoLoading: boolean; logoUrl?: string }) {
       });
   }
   function register() {
+    if (!agreedToTerms) {
+      showToast(Locale.RegisterPage.Toast.MustAgreeToTerms);
+      return;
+    }
     if (password == null || password.length == 0) {
       showToast(Locale.RegisterPage.Toast.PasswordEmpty);
       return;
@@ -191,7 +197,7 @@ export function Register(props: { logoLoading: boolean; logoUrl?: string }) {
       }
     }
     if (registerForInviteCodeOnly && !inviteCode) {
-      showToast("请输入邀请码！");
+      showToast(Locale.EnterInviteCode);
       return;
     }
     setLoadingUsage(true);
@@ -382,6 +388,7 @@ export function Register(props: { logoLoading: boolean; logoUrl?: string }) {
 
               <ListItem>
                 <IconButton
+                  type="primary"
                   text={
                     emailCodeSending
                       ? Locale.RegisterPage.Toast.EmailCodeSending
@@ -596,6 +603,28 @@ export function Register(props: { logoLoading: boolean; logoUrl?: string }) {
                 setInviteCode(e.currentTarget.value);
               }}
             />
+          </ListItem>
+
+          <ListItem
+            title={Locale.RegisterPage.TermsOfUse}
+            subTitle={
+              <a
+                href="https://f4t32gihfip.sg.larksuite.com/docx/XfPKdtlQhokVV6xDFMXladAUgrh/"
+                target="_blank"
+              >
+                {Locale.RegisterPage.ViewTOS}
+              </a>
+            }
+            //style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
+          >
+            <div style={{ display: "flex", alignItems: "center" }}>
+              {Locale.RegisterPage.Agree}
+              <input
+                type="checkbox"
+                checked={agreedToTerms}
+                onChange={(e) => setAgreedToTerms(e.currentTarget.checked)}
+              />
+            </div>
           </ListItem>
 
           <ListItem>

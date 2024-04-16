@@ -65,42 +65,41 @@ export function Balance() {
   }, [profileStore, navigate, authStore]);
 
   function getSubTitle(pkg: Balance) {
-    const prefix = {
-      1: "总额剩余",
-      2: "每天",
-      3: "每小时",
-      4: "每3小时",
-    }[pkg.calcTypeId];
+    const prefix =
+      Locale.Balance.prefix[
+        pkg.calcTypeId as keyof typeof Locale.Balance.prefix
+      ];
     return (
       `<div>#${pkg.id}</div>
-      <ul style="margin-top: 5px;padding-inline-start: 10px; color: ${
-        pkg.expired ? "var(--disabled)" : ""
-      }">` +
+    <ul style="margin-top: 5px;padding-inline-start: 10px; color: ${
+      pkg.expired ? "var(--disabled)" : ""
+    }">` +
       (pkg.tokens
         ? `<li>${prefix} <span style="font-size: 18px;">${
-            pkg.tokens === -1 ? "无限" : pkg.tokens
-          }</span> tokens</li>`
+            pkg.tokens === -1 ? Locale.Balance.unlimited : pkg.tokens
+          }</span> ${Locale.Balance.tokens}</li>`
         : "") +
       (pkg.chatCount
         ? `<li>${prefix} <span style="font-size: 18px;">${
-            pkg.chatCount === -1 ? "无限" : pkg.chatCount
-          }</span> 基础聊天积分</li>`
+            pkg.chatCount === -1 ? Locale.Balance.unlimited : pkg.chatCount
+          }</span> ${Locale.Balance.basicChatPoints}</li>`
         : "") +
       (pkg.advancedChatCount
         ? `<li>${prefix} <span style="font-size: 18px;">${
-            pkg.advancedChatCount === -1 ? "无限" : pkg.advancedChatCount
-          }</span> 高级聊天积分</li>`
+            pkg.advancedChatCount === -1
+              ? Locale.Balance.unlimited
+              : pkg.advancedChatCount
+          }</span> ${Locale.Balance.advancedChatPoints}</li>`
         : "") +
       (pkg.drawCount
         ? `<li>${prefix} <span style="font-size: 18px;">${
-            pkg.drawCount === -1 ? "无限" : pkg.drawCount
-          }</span> 绘画积分</li>`
+            pkg.drawCount === -1 ? Locale.Balance.unlimited : pkg.drawCount
+          }</span> ${Locale.Balance.drawingPoints}</li>`
         : "") +
-      `<li>到期时间：<span style="font-size: 18px;">${pkg.expireTime}</span></li>` +
+      `<li>${Locale.Balance.expirationTime}：<span style="font-size: 18px;">${pkg.expireTime}</span></li>` +
       `</ul>`
     );
   }
-
   const [balanceList, setBalanceList] = useState<Balance[]>([]);
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -223,8 +222,11 @@ export function Balance() {
                   <div style={{ minWidth: "100px", maxWidth: "200px" }}>
                     <div style={{ margin: "10px 0" }}>
                       <div style={{ fontSize: "14px" }}>
-                        {(pkg.sourceId === 6 ? "兑换" : "购买") +
-                          `时间：${pkg.createTime}`}
+                        {(pkg.sourceId === 6
+                          ? Locale.TransactionType.exchange
+                          : Locale.TransactionType.purchase) +
+                          Locale.Labels.transactionTime +
+                          pkg.createTime}
                       </div>
                     </div>
                   </div>

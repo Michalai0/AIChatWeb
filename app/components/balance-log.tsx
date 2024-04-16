@@ -202,24 +202,19 @@ export function BalanceLog() {
           <div style={{ margin: "0 auto 20px" }}>
             <List>
               {balanceLogList.map((invitation) => {
+                //const typeName = Locale.Balance_loges.TypeName[invitation.typeId] || Locale.Unknown;
                 const typeName =
-                  {
-                    1: "普通聊天",
-                    2: "高级聊天",
-                    3: "tokens",
-                    4: "绘图",
-                  }[invitation.typeId] || "未知";
+                  Locale.Balance_loges.TypeName[
+                    invitation.typeId as keyof typeof Locale.Balance_loges.TypeName
+                  ] || Locale.Balance_loges.Unknown;
                 const sourceName =
-                  {
-                    1: "聊天消耗",
-                    2: "绘图消耗",
-                    3: "后台管理员操作",
-                    4: "注册赠送",
-                  }[invitation.sourceId] || "未知";
+                  Locale.Balance_loges.SourceName[
+                    invitation.typeId as keyof typeof Locale.Balance_loges.SourceName
+                  ] || Locale.Balance_loges.Unknown;
                 const title = `${typeName}: ${invitation.delta}`;
                 const subTitle = `
-                <div>变动原因：${sourceName}<div>
-                <div>套餐ID：${invitation.balanceId}<div>`;
+                <div>${Locale.Balance_loges.ChangeReason}：${sourceName}</div>
+                <div>${Locale.Balance_loges.SubscriptionID}：${invitation.balanceId}</div>`;
                 return (
                   <DangerousListItem
                     key={invitation.id}
@@ -240,7 +235,7 @@ export function BalanceLog() {
               })}
             </List>
             <div style={{ fontSize: "14px", textAlign: "center" }}>
-              仅展示最近30天的最近50条记录
+              {Locale.Balance_loges.RecordDate}
             </div>
           </div>
         ) : (

@@ -108,7 +108,7 @@ export function Pay() {
       <div className="window-header">
         <div className="window-header-title">
           <div className="window-header-main-title">
-            {payPageTitle || "订单支付"}
+            {payPageTitle || Locale.PayPage.PayTittle}
           </div>
           <div className="window-header-sub-title">{payPageSubTitle || ""}</div>
         </div>
@@ -132,10 +132,10 @@ export function Pay() {
             alt="wechat-pay"
           />
           <div style={{ marginTop: "10px" }}>
-            {order ? order.title : "套餐购买"}
+            {order ? order.title : Locale.PayPage.DefaultName}
           </div>
           <div style={{ lineHeight: "50px" }}>
-            ￥<span style={{ fontSize: "32px" }}>{order && order.price}</span>
+            ￥s<span style={{ fontSize: "32px" }}>{order && order.price}</span>
           </div>
           {qrCode && <img src={qrCode} width={230} height={230} alt="qrcode" />}
           {loading && (
@@ -151,28 +151,28 @@ export function Pay() {
               Loading
             </div>
           )}
-          <div className={styles["bottom"]}>请使用微信扫码支付</div>
+          <div className={styles["bottom"]}>{Locale.PayPage.PayPrompt}</div>
         </div>
 
         {order && (
           <div style={{ textAlign: "center", margin: "20px" }}>
-            当前订单：
+            {Locale.PayPage.CurrentOrder}
             {order.state === 0
-              ? "未提交"
+              ? Locale.PayPage.OrderStatus.unsubmitted
               : order.state === 5
                 ? order.payUrl
-                  ? "待支付"
-                  : "已超时"
+                  ? Locale.PayPage.OrderStatus.awaitingPayment
+                  : Locale.PayPage.OrderStatus.timeout
                 : order.state === 6
-                  ? "提交失败"
+                  ? Locale.PayPage.OrderStatus.submissionFailed
                   : order.state === 10
-                    ? "已支付"
+                    ? Locale.PayPage.OrderStatus.paid
                     : order.state === 12
-                      ? "支付失败"
+                      ? Locale.PayPage.OrderStatus.paymentFailed
                       : order.state === 20
-                        ? "已取消"
+                        ? Locale.PayPage.OrderStatus.cancelled
                         : order.state === 30
-                          ? "已删除"
+                          ? Locale.PayPage.OrderStatus.deleted
                           : ""}
           </div>
         )}

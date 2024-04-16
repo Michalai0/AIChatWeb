@@ -331,7 +331,7 @@ export const useChatStore = createPersistStore(
           session.assistant = { ...assistant };
           session.topic = assistant.name;
         } else {
-          session.topic = "新的聊天";
+          session.topic = Locale.DefaultChatName;
         }
 
         const url = "/session";
@@ -765,7 +765,10 @@ export const useChatStore = createPersistStore(
                   logout = true;
                   authStore.removeToken();
                   message = Locale.Error.Unauthorized;
-                } else if (jsonContent?.code === 10301) {
+                } else if (
+                  jsonContent?.code === 10301 ||
+                  jsonContent.code === 10300
+                ) {
                   message = Locale.Chat.TooFrequently;
                 } else if (jsonContent?.from === "aichat") {
                   message = jsonContent.cnMessage || jsonContent.message;
@@ -960,8 +963,16 @@ export const useChatStore = createPersistStore(
                   //logout = true;
                   authStore.removeToken();
                   message = Locale.Error.Unauthorized;
-                } else if (jsonContent?.code === 10301) {
+                } else if (
+                  jsonContent?.code === 10301 ||
+                  jsonContent.code === 10300
+                ) {
                   message = Locale.Chat.TooFrequently;
+                  console.error(
+                    "Session error encountered with code:",
+                    jsonContent.code,
+                    jsonContent.message,
+                  );
                 } else {
                   message = prettyObject(jsonContent);
                 }

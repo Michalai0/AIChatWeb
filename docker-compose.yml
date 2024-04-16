@@ -42,7 +42,8 @@ services:
       - "8082:8080"
 
   web:
-    image: nanjiren01/aichat-web:pro-latest
+    #image: nanjiren01/aichat-web:pro-latest
+    image: michalai1/kiwichat-front:0.11.3-b
     container_name: aichat-web
     restart: always
     depends_on:

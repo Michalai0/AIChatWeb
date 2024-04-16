@@ -7,6 +7,42 @@
   justify-content: space-between;
   align-items: center;
 }
+.window-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 10%; /* 或者设置为具体的高度 */
+}
+
+.center-content {
+    text-align: center;
+    width: 100%; /* 根据需要调整宽度 */
+}
+
+/* 基本样式，适用于所有屏幕 */
+.pricing_package-introduction__LOQDf li {
+    text-align: -webkit-match-parent;  /* 继承父元素的对齐方式，可能是Chrome特有的旧样式 */
+    margin-right: 4px;  /* 每个列表项右侧外边距 */
+    margin-bottom: 8px;  /* 每个列表项下方外边距 */
+    line-height: 1.5;  /* 行高 */
+}
+
+.pricing_package-introduction__LOQDf h4 {
+    margin-top: 8px;
+    margin-bottom: 8px; /* 根据需要调整这个值来改变间隔 */
+}
+
+.pricing_package-introduction__LOQDf ul {
+    margin-top: 0; /* 移除默认的上边距 */
+}
+
+/* 当视窗宽度至少为768px时应用的样式 */
+@media (min-width: 768px) {
+    .pricing_package-introduction__LOQDf li {
+        font-size: 13px;  /* 字体大小调整为13px */
+    }
+}
+
 
 .window-header-title {
   max-width: calc(100% - 100px);

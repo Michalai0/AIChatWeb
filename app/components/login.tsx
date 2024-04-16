@@ -175,7 +175,9 @@ export function Login(props: { logoLoading: boolean; logoUrl?: string }) {
           <div className="window-header-main-title">
             {Locale.LoginPage.Title}
           </div>
-          <div className="window-header-sub-title">{loginPageSubTitle}</div>
+          <div className="window-header-sub-title">
+            {Locale.LoginPage.SubTitle}
+          </div>
         </div>
         <div className="window-actions">
           {showMaxIcon && (
@@ -289,7 +291,7 @@ export function Login(props: { logoLoading: boolean; logoUrl?: string }) {
                   fetchingSessions
                     ? Locale.LoginPage.FetchingSessions
                     : authStore.token
-                      ? Locale.LoginPage.Actions.Logout
+                      ? Locale.LoginPage.Actions.Logingout
                       : Locale.LoginPage.Actions.Login
                 }
                 disabled={loadingUsage}

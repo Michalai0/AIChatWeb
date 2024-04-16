@@ -90,7 +90,7 @@ export function Profile() {
 
   function getPrefix(balance: Balance) {
     return balance.calcType == "Total"
-      ? "总额"
+      ? Locale.Profile.ExpireList.Total
       : balance.calcType == "Daily"
         ? Locale.Profile.BalanceItem.CalcTypes.Daily
         : balance.calcType == "Hourly"
@@ -176,29 +176,27 @@ export function Profile() {
           <ListItem title={Locale.Profile.InviteCode.Title}>
             {authStore.inviteCode ? (
               <>
-                <span>
-                  <span
-                    className={styles["copy-action"]}
-                    onClick={() => {
-                      copyToClipboard(authStore.inviteCode);
-                    }}
-                  >
-                    {authStore.inviteCode}
-                  </span>
-                  <span
-                    className={styles["copy-action"]}
-                    onClick={() => {
-                      copyToClipboard(
-                        location.origin +
-                          Path.Register +
-                          "?code=" +
-                          authStore.inviteCode,
-                      );
-                    }}
-                  >
-                    {Locale.Profile.Actions.Copy}
-                  </span>
-                </span>
+                <IconButton
+                  //className={"copy-action"}
+                  onClick={() => {
+                    copyToClipboard(authStore.inviteCode);
+                  }}
+                  text={authStore.inviteCode}
+                  type="second"
+                />
+                <IconButton
+                  text={Locale.Profile.Actions.Copy}
+                  //className={"copy-action"}
+                  onClick={() => {
+                    copyToClipboard(
+                      location.origin +
+                        Path.Register +
+                        "?code=" +
+                        authStore.inviteCode,
+                    );
+                  }}
+                  type="second"
+                />
               </>
             ) : (
               <IconButton
@@ -211,10 +209,13 @@ export function Profile() {
               />
             )}
           </ListItem>
-          <ListItem>
+          <ListItem
+            title={Locale.Profile.InviteCode.RecordTitle}
+            subTitle={Locale.Profile.InviteCode.RecordSubTitle}
+          >
             <IconButton
               type="second"
-              text="邀请记录"
+              text={Locale.Profile.Invitor.Record}
               onClick={() => navigate(Path.Invitation)}
             />
           </ListItem>
@@ -233,9 +234,9 @@ export function Profile() {
               }}
             >
               {loading
-                ? "加载中"
+                ? Locale.Profile.Loading
                 : profileStore.balances && profileStore.balances.length === 0
-                  ? "您尚未购买任何套餐"
+                  ? Locale.Profile.EmptyOrder
                   : ""}
             </div>
           ) : (
@@ -246,7 +247,7 @@ export function Profile() {
           profileStore.balances.length > 0 &&
           !profileStore.balances[0].expired ? (
             <>
-              <ListItem
+              {/*              <ListItem
                 title={Locale.Profile.Tokens.Title}
                 subTitle={
                   getPrefix(profileStore.balances[0]) +
@@ -255,10 +256,10 @@ export function Profile() {
               >
                 <span>
                   {profileStore.balances[0].tokens == -1
-                    ? "无限"
+                    ? Locale.Balance.unlimited
                     : profileStore.balances[0].tokens}
                 </span>
-              </ListItem>
+              </ListItem>*/}
 
               <ListItem
                 title={Locale.Profile.ChatCount.Title}
@@ -269,7 +270,7 @@ export function Profile() {
               >
                 <span>
                   {profileStore.balances[0].chatCount == -1
-                    ? "无限"
+                    ? Locale.Balance.unlimited
                     : profileStore.balances[0].chatCount}
                 </span>
               </ListItem>
@@ -283,7 +284,7 @@ export function Profile() {
               >
                 <span>
                   {profileStore.balances[0].advancedChatCount == -1
-                    ? "无限"
+                    ? Locale.Balance.unlimited
                     : profileStore.balances[0].advancedChatCount}
                 </span>
               </ListItem>
@@ -296,7 +297,7 @@ export function Profile() {
               >
                 <span>
                   {profileStore.balances[0].drawCount == -1
-                    ? "无限"
+                    ? Locale.Balance.unlimited
                     : profileStore.balances[0].drawCount}
                 </span>
               </ListItem>
@@ -314,8 +315,8 @@ export function Profile() {
             <ListItem
               subTitle={
                 profileStore.balances[0].expired
-                  ? "您所购套餐已经全部过期"
-                  : "以上仅展示最早到期的套餐"
+                  ? Locale.Profile.InvalidOrder
+                  : Locale.Profile.EarliestDueOrder
               }
             >
               <IconButton
@@ -332,24 +333,26 @@ export function Profile() {
             <></>
           )}
 
-          <ListItem>
-            <div style={{ display: "flex" }}>
-              <IconButton
-                text={Locale.Profile.Actions.BalanceLog}
-                type="second"
-                style={{ marginRight: "10px" }}
-                onClick={() => {
-                  navigate(Path.BalanceLog);
-                }}
-              />
-              <IconButton
-                text={Locale.Profile.Actions.Redeem}
-                type="second"
-                onClick={() => {
-                  navigate(Path.RedeemCode);
-                }}
-              />
-            </div>
+          <ListItem title={Locale.Profile.Actions.BalanceLog}>
+            <IconButton
+              text={Locale.Profile.Actions.BalanceLog}
+              type="second"
+              onClick={() => {
+                navigate(Path.BalanceLog);
+              }}
+            />
+          </ListItem>
+          <ListItem
+            title={Locale.Profile.Actions.RedeemTitle}
+            subTitle={Locale.Profile.Actions.RedeemSubTitle}
+          >
+            <IconButton
+              text={Locale.Profile.Actions.Redeem}
+              type="primary"
+              onClick={() => {
+                navigate(Path.RedeemCode);
+              }}
+            />
           </ListItem>
         </List>
 

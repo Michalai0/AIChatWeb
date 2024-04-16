@@ -4,6 +4,10 @@ import { SubmitKey } from "../store/config";
 const isApp = !!getClientConfig()?.isApp;
 
 const cn = {
+  PlugInName: "联网插件",
+  DefaultChatName: "新的聊天",
+  EnterInviteCode: "请输入邀请码！",
+  Language: "zh-CN",
   WIP: "该功能仍在开发中……",
   Error: {
     Unauthorized: "登录信息已过期，请前往[登录页](/#/login)",
@@ -20,12 +24,17 @@ const cn = {
   Sidebar: {
     Title: "公告",
     Close: "关闭",
+    synchronizing: "同步中...",
+    SynchronizationSuccess: "同步成功！",
+    SynchronizationFail: "同步失败，请重试。",
+    SynchronizationError: "同步出现异常，请检查网络连接。",
   },
   ChatItem: {
     ChatItemCount: (count: number) => `${count} 条对话`,
   },
   Chat: {
     SubTitle: (count: number) => `共 ${count} 条对话`,
+    UploadFailed: "上传失败！",
     EditMessage: {
       Title: "编辑消息记录",
       Topic: {
@@ -73,7 +82,7 @@ const cn = {
     Typing: "正在输入…",
     SensitiveWordsTip: (question: string) =>
       `您的提问中包含敏感词：${question}`,
-    BalanceNotEnough: "您的额度不足，请联系管理员",
+    BalanceNotEnough: "您的余额不足，请前往服务订阅充值！",
     Input: (submitKey: string, action: string, append?: boolean) => {
       var inputHints = `${submitKey} ${action}`;
       if (submitKey === String(SubmitKey.Enter)) {
@@ -94,7 +103,7 @@ const cn = {
     ReloadSesison: "重新加载",
     DeleteDeletedSessionConfirm: "该会话已在其他客户端删除，确定删除本地会话？",
     ModelNotAvailable: "当前模型已不可用，请更换模型进行会话",
-    PleaseWaitForFinished: "请等待本次请求结束",
+    PleaseWaitForFinished: "请等待本次请求结束或终止请求",
   },
   Midjourney: {
     Uploading: "上传中……",
@@ -185,10 +194,11 @@ const cn = {
     DeleteToast: "已删除会话",
     Revert: "撤销",
     NoNotice: "暂无公告",
+    NoPopUP: "今日不再弹出",
   },
   LoginPage: {
     Title: "登录",
-    SubTitle: "登录后可跟AI交流",
+    SubTitle: "登陆后使用Kiwi Chat",
     Username: {
       Title: "用户名或邮箱",
       SubTitle: "",
@@ -208,6 +218,7 @@ const cn = {
       Close: "关闭",
       Login: "登录",
       Logout: "退出登录",
+      Logingout: "退出中……",
     },
     Toast: {
       Success: "登录成功，正在同步会话信息",
@@ -220,6 +231,9 @@ const cn = {
     FetchingSessions: "获取会话中……",
   },
   RegisterPage: {
+    Agree: "同意",
+    TermsOfUse: "用户协议",
+    ViewTOS: "访问用户协议",
     Title: "注册",
     SubTitle: "注册后赠送免费额度哦",
     Name: {
@@ -249,7 +263,7 @@ const cn = {
     },
     Username: {
       Title: "用户名",
-      SubTitle: "用户名只能包含字母、数字、下划线，不可以包含中文",
+      SubTitle: "用户名仅限字母/数字/下划线",
       Placeholder: "请输入用户名",
     },
     Password: {
@@ -266,6 +280,7 @@ const cn = {
       Close: "关闭",
     },
     Toast: {
+      MustAgreeToTerms: "请同意并勾选服务条款",
       Success: "注册成功，正在前往聊天……",
       Registering: "注册中……",
       Failed: "注册失败！",
@@ -314,6 +329,10 @@ const cn = {
     },
   },
   Profile: {
+    EarliestDueOrder: "以上仅展示最早到期的套餐",
+    InvalidOrder: "您所购套餐已经全部过期",
+    EmptyOrder: "您尚未购买任何套餐",
+    Loading: "加载中...",
     Title: "个人中心",
     SubTitle: "个人中心",
     Username: "账号",
@@ -321,14 +340,17 @@ const cn = {
     Phone: "手机号",
     Invitor: {
       Title: "邀请人",
+      Record: "邀请记录",
     },
     InviteCode: {
+      RecordTitle: "邀请记录",
+      RecordSubTitle: "查看所有邀请记录",
       Title: "邀请码(选填)",
       TitleRequired: "邀请码(必填)",
       Placeholder: "输入邀请码获得额外权益",
     },
     Tokens: {
-      Title: "tokens",
+      Title: "Tokens",
       SubTitle: "",
     },
     ChatCount: {
@@ -354,6 +376,8 @@ const cn = {
       CreateInviteCode: "生成邀请码",
       Copy: "复制链接",
       Redeem: "兑换码",
+      RedeemTitle: "兑换码",
+      RedeemSubTitle: "输入兑换码兑换套餐",
     },
     BalanceItem: {
       Title: "套餐类型",
@@ -367,10 +391,14 @@ const cn = {
     },
     ExpireList: {
       Title: "到期时间",
+      Total: "总额",
       SubTitle: "",
     },
   },
   RedeemCodePage: {
+    RedeemedTime: "兑换时间：",
+    NoRedeemed: "暂未兑换",
+    Loading: "加载中……",
     Title: "兑换码",
     RedeemCodeInput: {
       Title: "兑换码",
@@ -382,6 +410,31 @@ const cn = {
     },
   },
   PricingPage: {
+    QA: "常见问题",
+    PointsFee: "积分计费：",
+    PointsDesc:
+      "积分计费是一种按次付费的计费方式，您可以根据需求购买不同数量的积分包，倍率为1倍的情况下1个积分为1次对话次数。积分分为基础、高级、绘画三类。\n" +
+      "                            基础积分可以使用中国国产大模型，高级积分可以使用ChatGPT4等高级模型，绘画积分用于绘画。",
+    PointsFactor: "积分倍率：",
+    PointsFactorDesc:
+      "如没有特殊标明则默认为1倍率，其他倍率可以在模型列表查看。",
+    CS: "客服：",
+    WechatCS: "微信客服：",
+    WhatsAppCS: "WhatsApp客服：",
+    EmailCS: "邮箱客服：",
+    Discount: "关于优惠：",
+    DiscountDesc: "本站不定期推出优惠活动，请关注",
+    PricingHeaderTitle: "💡 常见问题滑动到底部查看",
+    PricingHeaderSubTitle:
+      "充值后请耐心等待 5-10 分钟左右到账，如有问题请联系客服(底部查看)",
+    BaseCurrency: "人民幣結算",
+    ClickToPay: "点此付款",
+    PaymentPrompt: "订单已创建，请点击以下按钮前往付款（微信支付）",
+    PricingPageTitle: "套餐购买",
+    PricingPageSubTitle1: "其他支付方式请到",
+    PricingPageSubTitle2: "兑换",
+    PricingPageUrlTitle: "兑换页面",
+    CurrencySymbol: "￥",
     Title: "充值",
     SubTitle: "畅享与AI聊天的乐趣",
     Actions: {
@@ -400,6 +453,20 @@ const cn = {
     ChoosePayChannel: "请选择支付方式",
   },
   PayPage: {
+    DefaultName: "套餐购买",
+    CurrentOrder: "当前订单：",
+    OrderStatus: {
+      unsubmitted: "未提交",
+      awaitingPayment: "待支付",
+      timeout: "已超时",
+      submissionFailed: "提交失败",
+      paid: "已支付",
+      paymentFailed: "支付失败",
+      cancelled: "已取消",
+      deleted: "已删除",
+    },
+    PayPrompt: "请使用微信扫码支付",
+    PayTittle: "订单支付",
     PaidSuccess: "支付成功",
     Actions: {
       Close: "关闭",
@@ -418,6 +485,9 @@ const cn = {
       Refreshing: "刷新中……",
       RedeemCode: "兑换码",
       BalanceLog: "额度变动记录",
+    },
+    Footer: {
+      Note: "仅展示最近30天的最近50条记录",
     },
   },
   InvitationPage: {
@@ -444,6 +514,12 @@ const cn = {
     },
   },
   OrderPage: {
+    PP: "套餐购买：",
+    PaymentTime: "支付时间：",
+    CreatTime: "创建时间：",
+    OrderNum: "订单号：……",
+    Status: "状态：",
+    CurrencySymbol: "￥",
     Title: "订单中心",
     NoOrder: "暂无订单",
     Loading: "请稍候……",
@@ -467,11 +543,10 @@ const cn = {
   Settings: {
     Title: "设置",
     SubTitle: "所有设置选项",
-
     Danger: {
       Reset: {
         Title: "重置所有设置",
-        SubTitle: "重置所有设置项回默认值",
+        SubTitle: "重置所有设置项恢复默认值",
         Action: "立即重置",
         Confirm: "确认重置所有设置？",
       },
@@ -719,6 +794,8 @@ const cn = {
   },
   Plugin: {
     Name: "插件管理",
+    Enabled: "已开启",
+    Disabled: "已关闭",
   },
   FineTuned: {
     Sysmessage: "你是一个助手",
@@ -799,6 +876,85 @@ const cn = {
     Messages: "消息",
     Topic: "主题",
     Time: "时间",
+  },
+  Balance: {
+    prefix: {
+      1: "总额剩余",
+      2: "每天",
+      3: "每小时",
+      4: "每3小时",
+    },
+    tokens: "Tokens",
+    basicChatPoints: "基础聊天积分",
+    advancedChatPoints: "高级聊天积分",
+    drawingPoints: "绘画积分",
+    expirationTime: "到期时间",
+    unlimited: "无限",
+    days: "天",
+  },
+  OrderState: {
+    0: "待提交",
+    5: "待支付",
+    6: "提交失败",
+    10: "已支付",
+    12: "支付失败",
+    20: "已取消",
+    30: "已删除",
+    paymentTimeout: "支付超时",
+  },
+  TransactionType: {
+    exchange: "兑换",
+    purchase: "购买",
+  },
+  Labels: {
+    transactionTime: "时间：",
+  },
+  Messages: {
+    enterRedeemCode: "请输入兑换码！",
+  },
+  Errors: {
+    unknownError: "未知错误",
+    redeemFailed: "兑换失败：",
+    invalidCode: "兑换失败：兑换码无效",
+    codeNotEffective: "兑换失败：兑换码未生效",
+    codeRedeemed: "兑换失败：兑换码已兑换",
+    requestFailed: "请求失败",
+  },
+  Success: {
+    redeemSuccess: "兑换成功！",
+  },
+  Balance_loges: {
+    TypeName: {
+      1: "普通聊天",
+      2: "高级聊天",
+      3: "Tokens",
+      4: "绘图",
+    },
+    SourceName: {
+      1: "聊天消耗",
+      2: "绘图消耗",
+      3: "后台管理员操作",
+      4: "注册赠送",
+    },
+    Unknown: "未知",
+    ChangeReason: "变更原因",
+    SubscriptionID: "套餐ID",
+    RecordDate: "仅展示最近30天的最近50条记录",
+  },
+  Assistant: {
+    Name: "助手:",
+    CodeInterpreter: "调用代码解释器：",
+    Status: {
+      init: "正在初始化",
+      queued: "已进入队列",
+      in_progress: "思考中",
+      requires_action: "等待工具返回结果",
+      cancelling: "取消中",
+      cancelled: "已取消",
+      failed: "思考失败",
+      completed: "思考完成",
+      expired: "思考时间过长",
+    },
   },
 };
 

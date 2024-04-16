@@ -1,10 +1,10 @@
 
 
 
-# docker build -t nanjiren01/aichat-web:0.11.3 ../AIChatWeb
-# docker push nanjiren01/aichat-web:0.11.3
-# docker tag nanjiren01/aichat-web:0.11.3 nanjiren01/aichat-web:pro-latest
-# docker push nanjiren01/aichat-web:pro-latest
+# docker build -t kiwichat-web:0.11.3.1 ../AIChatWeb
+# docker push michalai1/kiwichat-web:0.11.3.1
+# docker tag 6a1373e75626 michalai1/kiwichat-front:latest
+# docker push michalai1/kiwichat-front:latest
 
 FROM node:18-alpine AS builder
 

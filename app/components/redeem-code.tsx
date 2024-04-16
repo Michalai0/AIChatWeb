@@ -68,7 +68,7 @@ export function RedeemCode() {
   const [redeemCode, setRedeemCode] = useState("");
   function redeem() {
     if (!redeemCode) {
-      showToast("请输入兑换码！");
+      showToast(Locale.Messages.enterRedeemCode); // 使用本地化消息
       return;
     }
     const url = `/redeemCode/${redeemCode}/redeem`;
@@ -84,24 +84,28 @@ export function RedeemCode() {
       .then((res) => res.json())
       .then((res) => {
         if (!res) {
-          showToast("未知错误");
+          showToast(Locale.Errors.unknownError); // 使用本地化消息
           return;
         }
         if (res?.code !== 0) {
-          console.error("兑换失败", res);
-          if (res.code === 10411) {
-            showToast("兑换失败：兑换码无效");
-          } else if (res.code === 10412) {
-            showToast("兑换失败：兑换码未生效");
-          } else if (res.code === 10413) {
-            showToast("兑换失败：兑换码已兑换");
-          } else {
-            showToast("兑换失败：" + res.message);
+          console.error(Locale.Errors.redeemFailed, res); // 使用本地化消息
+          switch (res.code) {
+            case 10411:
+              showToast(Locale.Errors.invalidCode); // 使用本地化消息
+              break;
+            case 10412:
+              showToast(Locale.Errors.codeNotEffective); // 使用本地化消息
+              break;
+            case 10413:
+              showToast(Locale.Errors.codeRedeemed); // 使用本地化消息
+              break;
+            default:
+              showToast(Locale.Errors.redeemFailed + res.message); // 使用本地化消息
           }
           return;
         }
-        console.log("兑换成功！");
-        showToast("兑换成功！");
+        console.log(Locale.Success.redeemSuccess); // 使用本地化消息
+        showToast(Locale.Success.redeemSuccess); // 使用本地化消息
         getMyRedeemCodes();
       });
   }
@@ -136,37 +140,36 @@ export function RedeemCode() {
 
   function getSubTitle(redeemCodeEntity: RedeemCodeEntity) {
     const pkg = redeemCodeEntity;
-    const prefix = {
-      1: "总额",
-      2: "每天",
-      3: "每小时",
-      4: "每3小时",
-    }[pkg.calcTypeId];
+    const prefix =
+      Locale.Balance.prefix[
+        pkg.calcTypeId as keyof typeof Locale.Balance.prefix
+      ];
+    [pkg.calcTypeId];
     return (
       `<ul style="margin-top: 5px;padding-inline-start: 10px;">` +
       (pkg.tokens
         ? `<li>${prefix} <span style="font-size: 18px;">${
-            pkg.tokens === -1 ? "无限" : pkg.tokens
-          }</span> tokens</li>`
+            pkg.tokens === -1 ? Locale.Balance.unlimited : pkg.tokens
+          }</span> ${Locale.Balance.tokens}</li>`
         : "") +
       (pkg.chatCount
         ? `<li>${prefix} <span style="font-size: 18px;">${
-            pkg.chatCount === -1 ? "无限" : pkg.chatCount
-          }</span> 基础聊天积分</li>`
+            pkg.tokens === -1 ? Locale.Balance.unlimited : pkg.tokens
+          }</span> ${Locale.Balance.basicChatPoints}</li>`
         : "") +
       (pkg.advancedChatCount
         ? `<li>${prefix} <span style="font-size: 18px;">${
-            pkg.advancedChatCount === -1 ? "无限" : pkg.advancedChatCount
-          }</span> 高级聊天积分</li>`
+            pkg.tokens === -1 ? Locale.Balance.unlimited : pkg.tokens
+          }</span> ${Locale.Balance.advancedChatPoints}</li>`
         : "") +
       (pkg.drawCount
         ? `<li>${prefix} <span style="font-size: 18px;">${
-            pkg.drawCount === -1 ? "无限" : pkg.drawCount
-          }</span> 绘画积分</li>`
+            pkg.tokens === -1 ? Locale.Balance.unlimited : pkg.tokens
+          }</span> ${Locale.Balance.drawingPoints}</li>`
         : "") +
-      `<li>有效期： <span style="font-size: 18px;">${
-        pkg.days == "-1" ? "无限" : pkg.days
-      }</span> 天</li>` +
+      `<li>${Locale.Balance.expirationTime}： <span style="font-size: 18px;">${
+        pkg.tokens === -1 ? Locale.Balance.unlimited : pkg.tokens
+      }</span> ${Locale.Balance.expirationTime}</li>` +
       `</ul>`
     );
   }
@@ -230,7 +233,9 @@ export function RedeemCode() {
         <List>
           {myRedeemCodes.length === 0 || loading ? (
             <div style={{ textAlign: "center", lineHeight: "100px" }}>
-              {loading ? "加载中……" : "暂未兑换"}
+              {loading
+                ? Locale.RedeemCodePage.Loading
+                : Locale.RedeemCodePage.NoRedeemed}
             </div>
           ) : (
             <></>
@@ -254,7 +259,7 @@ export function RedeemCode() {
                     <div style={{ margin: "10px 0" }}>
                       <div
                         style={{ fontSize: "14px" }}
-                      >{`兑换时间：${redeemCodeEntity.redeemTime}`}</div>
+                      >{`${Locale.RedeemCodePage.RedeemedTime}${redeemCodeEntity.redeemTime}`}</div>
                     </div>
                   </div>
                 </DangerousListItem>

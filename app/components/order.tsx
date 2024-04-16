@@ -189,56 +189,47 @@ export function Order() {
 
   function getSubTitle(order: any) {
     const pkg = order.orderPackages[0] as Package;
-    const prefix = {
-      1: "总额",
-      2: "每天",
-      3: "每小时",
-      4: "每3小时",
-    }[pkg.calcTypeId];
+    const prefix =
+      Locale.Balance.prefix[
+        pkg.calcTypeId as keyof typeof Locale.Balance.prefix
+      ];
+
     return (
       `<ul style="margin-top: 5px;padding-inline-start: 10px;">` +
       (pkg.tokens
         ? `<li>${prefix} <span style="font-size: 18px;">${
-            pkg.tokens === -1 ? "无限" : pkg.tokens
-          }</span> tokens</li>`
+            pkg.tokens === -1 ? Locale.Balance.unlimited : pkg.tokens
+          }</span> ${Locale.Balance.tokens}</li>`
         : "") +
       (pkg.chatCount
         ? `<li>${prefix} <span style="font-size: 18px;">${
-            pkg.chatCount === -1 ? "无限" : pkg.chatCount
-          }</span> 基础聊天积分</li>`
+            pkg.chatCount === -1 ? Locale.Balance.unlimited : pkg.chatCount
+          }</span> ${Locale.Balance.basicChatPoints}</li>`
         : "") +
       (pkg.advancedChatCount
         ? `<li>${prefix} <span style="font-size: 18px;">${
-            pkg.advancedChatCount === -1 ? "无限" : pkg.advancedChatCount
-          }</span> 高级聊天积分</li>`
+            pkg.advancedChatCount === -1
+              ? Locale.Balance.unlimited
+              : pkg.advancedChatCount
+          }</span> ${Locale.Balance.advancedChatPoints}</li>`
         : "") +
       (pkg.drawCount
         ? `<li>${prefix} <span style="font-size: 18px;">${
-            pkg.drawCount === -1 ? "无限" : pkg.drawCount
-          }</span> 绘画积分</li>`
+            pkg.drawCount === -1 ? Locale.Balance.unlimited : pkg.drawCount
+          }</span> ${Locale.Balance.drawingPoints}</li>`
         : "") +
-      `<li>有效期： <span style="font-size: 18px;">${
-        pkg.days == "-1" ? "无限" : pkg.days
-      }</span> 天</li>` +
+      `<li>${Locale.Balance.expirationTime}：<span style="font-size: 18px;">${
+        pkg.days == "-1" ? Locale.Balance.unlimited : pkg.days
+      }</span> ${Locale.Balance.expirationTime}</li>` +
       `</ul>`
     );
   }
 
   function getStateText(order: Order) {
     if (order.state === 5 && !order.payUrl) {
-      return "支付超时";
+      return Locale.OrderState.paymentTimeout;
     }
-    return (
-      {
-        0: "待提交",
-        5: "待支付",
-        6: "提交失败",
-        10: "已支付",
-        12: "支付失败",
-        20: "已取消",
-        30: "已删除",
-      } as any
-    )[order.state];
+    return Locale.OrderState[order.state as keyof typeof Locale.OrderState];
   }
 
   const [orderList, setOrderList] = useState<Order[]>([]);
@@ -357,7 +348,7 @@ export function Order() {
               return (
                 <DangerousListItem
                   key={order.uuid}
-                  title={order.title}
+                  title={order.title.replace("套餐购买：", Locale.OrderPage.PP)}
                   subTitle={getSubTitle(order)}
                 >
                   <div style={{ minWidth: "100px", maxWidth: "200px" }}>
@@ -368,18 +359,18 @@ export function Order() {
                         textAlign: "center",
                       }}
                     >
-                      ￥{order.price}
+                      {Locale.OrderPage.CurrencySymbol}
+                      {order.price}
                     </div>
                     <div style={{ margin: "10px 0" }}>
                       <div style={{ fontSize: "14px" }}>
-                        &#12288;&#12288;状态：{getStateText(order)}
+                        &#12288;&#12288;{Locale.OrderPage.Status}
+                        {getStateText(order)}
                       </div>
                       <div style={{ fontSize: "14px" }}>
                         <span>
                           &#12288;
-                          {`订单号：……${order.uuid.substring(
-                            order.uuid.length - 4,
-                          )}`}
+                          {`${Locale.OrderPage.OrderNum} ${order.uuid.substring(order.uuid.length - 4)}`}
                         </span>
                         <span
                           className={styles["copy-action"]}
@@ -392,9 +383,11 @@ export function Order() {
                       </div>
                       <div
                         style={{ fontSize: "14px" }}
-                      >{`创建时间：${order.createTime}`}</div>
+                      >{`${Locale.OrderPage.CreatTime} ${order.createTime}`}</div>
                       {order.payTime && (
-                        <div style={{ fontSize: "14px" }}>{`支付时间：${
+                        <div
+                          style={{ fontSize: "14px" }}
+                        >{`${Locale.OrderPage.PaymentTime} ${
                           order.payTime || ""
                         }`}</div>
                       )}

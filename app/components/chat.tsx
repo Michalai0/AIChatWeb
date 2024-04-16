@@ -687,7 +687,7 @@ export function ChatActions(props: {
       })
       .catch((e) => {
         console.error(e);
-        showToast("上传失败！" + e);
+        showToast(`${Locale.Chat.UploadFailed} ${e}`);
       })
       .finally(() => {
         console.log("finally");
@@ -908,11 +908,12 @@ export function ChatActions(props: {
                   );
                   if (result) {
                     showToast(
-                      (value ? "已开启" : "已关闭") + model.plugin.name,
+                      //(value ? "已开启" : "已关闭") + model.plugin.name,
+                      `${value ? Locale.Plugin.Enabled : Locale.Plugin.Disabled} ${Locale.PlugInName}`,
                     );
                   }
                 }}
-                text={model.plugin.name}
+                text={Locale.PlugInName}
                 icon={<Internet />}
                 value={model.value}
               />
@@ -1097,6 +1098,8 @@ function _Chat(props: {
   // prompt hints
   const promptStore = usePromptStore();
   const [promptHints, setPromptHints] = useState<RenderPrompt[]>([]);
+  const [requestingSession, setRequestingSession] =
+    useState<ChatSession | null>(null);
   const onSearch = useDebouncedCallback(
     (text: string) => {
       const matchedPrompts = promptStore.search(text);
@@ -1587,6 +1590,10 @@ function _Chat(props: {
       return;
     }
     if (shouldSubmit(e) && promptHints.length === 0) {
+      if (message?.streaming) {
+        showToast(Locale.Chat.PleaseWaitForFinished);
+        return;
+      }
       doSubmit(userInput);
       e.preventDefault();
     }
@@ -2286,21 +2293,12 @@ function _Chat(props: {
                         {/* <CheckmarkIcon
                           className={styles["chat-message-checkmark"]}
                         /> */}
-                        助手:
+                        ${Locale.Assistant.Name}
                         <code className={styles["chat-message-tools-details"]}>
-                          {
-                            {
-                              init: "正在初始化",
-                              queued: "已进入队列",
-                              in_progress: "思考中",
-                              requires_action: "等待工具返回结果",
-                              cancelling: "取消中",
-                              cancelled: "已取消",
-                              failed: "思考失败",
-                              completed: "思考完成",
-                              expired: "思考时间过长",
-                            }[message.attr.run.status]
-                          }
+                          {Locale.Assistant.Status[
+                            message.attr.run
+                              .status as keyof typeof Locale.Assistant.Status
+                          ] ?? "Unknown Status"}
                         </code>
                       </div>
                     </div>
@@ -2321,7 +2319,7 @@ function _Chat(props: {
                               <CheckmarkIcon
                                 className={styles["chat-message-checkmark"]}
                               />
-                              调用代码解释器：
+                              ${Locale.Assistant.CodeInterpreter}
                               <code>
                                 {cut(stepDetails.code_interpreter.input)}
                               </code>
@@ -2344,7 +2342,7 @@ function _Chat(props: {
                                             styles["chat-message-checkmark"]
                                           }
                                         />
-                                        调用代码解释器：
+                                        ${Locale.Assistant.CodeInterpreter}
                                         <code>
                                           {cut(call.code_interpreter.input)}
                                         </code>
@@ -2826,7 +2824,13 @@ function _Chat(props: {
             }
             className={styles["chat-input-send"]}
             type="primary"
-            onClick={() => doSubmit(userInput)}
+            onClick={() => {
+              if (message?.streaming) {
+                showToast(Locale.Chat.PleaseWaitForFinished);
+                return;
+              }
+              doSubmit(userInput);
+            }}
           />
         </div>
       </div>

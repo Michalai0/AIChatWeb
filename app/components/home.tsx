@@ -331,7 +331,7 @@ function Screen(props: { logoLoading: boolean; logoUrl?: string }) {
 
   const [requestingSession, setRequestingSession] =
     useState<ChatSession | null>(null);
-
+  //            } ${getLang() === "ar" ? styles["rtl-screen"] : ""}` line:342
   return (
     <>
       <div className={(separator ? "separator-page " : "") + "body"}>
@@ -340,7 +340,7 @@ function Screen(props: { logoLoading: boolean; logoUrl?: string }) {
             styles.container +
             ` ${
               shouldTightBorder ? styles["tight-container"] : styles.container
-            } ${getLang() === "ar" ? styles["rtl-screen"] : ""}`
+            }`
           }
         >
           {isAuth ? (
