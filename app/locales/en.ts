@@ -457,12 +457,12 @@ const en: LocaleType = {
     PricingPageSubTitle1: "Other Payment Methods Please Go To ",
     PricingPageSubTitle2: " Redeem",
     PricingPageUrlTitle: "Redemption Page",
-    CurrencySymbol: "≈HK$ ",
+    CurrencySymbol: "￥",
     Title: "Recharge",
     SubTitle: "Enjoy the fun of chatting with AI",
     Actions: {
       Close: "Close",
-      Buy: "Purchase",
+      Buy: "WeChat Pay",
       Order: "Order Center",
       RedeemCode: "Redeem Code",
     },
@@ -542,7 +542,7 @@ const en: LocaleType = {
     CreatTime: "Creation Time: ",
     OrderNum: "Order Number: ...",
     Status: "Status: ",
-    CurrencySymbol: "≈HK$ ",
+    CurrencySymbol: "￥ ",
     Title: "Order Center",
     NoOrder: "No orders available",
     Loading: "Please wait...",
@@ -814,10 +814,13 @@ const en: LocaleType = {
     Revert: "Revert",
   },
   Shop: {
-    Name: "Subscribe",
+    Name: "Plans",
   },
   User: {
     Name: "Profile",
+  },
+  Sync: {
+    Name: "Sync",
   },
   Plugin: {
     Name: "Plugin Management",

@@ -51,6 +51,34 @@
 
   .sidebar-header-bar {
     display: flex;
+    margin-bottom: 10px;
+    margin-top: 7px;
+
+    .sidebar-bar-button {
+      flex-grow: 1;
+
+      &:not(:last-child) {
+        margin-right: 10px;
+      }
+    }
+  }
+
+/*  .sidebar-header-title{
+    display: flex;
+    margin-bottom: 15px;
+    margin-top: 7px;
+
+    .sidebar-bar-button {
+      flex-grow: 1;
+
+      &:not(:last-child) {
+        margin-right: 10px;
+      }
+    }
+  }*/
+
+  .sidebar-header-bar2 {
+    display: flex;
     margin-bottom: 20px;
 
     .sidebar-bar-button {
@@ -136,18 +164,19 @@
 
 .sidebar-header {
   position: relative;
-  padding-top: 20px;
-  padding-bottom: 20px;
+  padding-bottom: 15px;
 }
 
 .sidebar-logo {
+
+  display: flex;
   position: absolute;
   right: 0;
-  bottom: 18px;
+  top: 10px; /* 您可能需要添加这个属性来从顶部定位它 */
 }
 
 .sidebar-title {
-  font-size: 20px;
+  font-size: 30px;
   font-weight: bold;
   animation: slide-in ease 0.3s;
 }
@@ -243,6 +272,16 @@
   }
 
   .sidebar-header-bar {
+    flex-direction: column;
+
+    .sidebar-bar-button {
+      &:not(:last-child) {
+        margin-right: 0;
+        margin-bottom: 10px;
+      }
+    }
+  }
+  .sidebar-header-bar2 {
     flex-direction: column;
 
     .sidebar-bar-button {

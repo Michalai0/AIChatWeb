@@ -439,7 +439,7 @@ const cn = {
     SubTitle: "畅享与AI聊天的乐趣",
     Actions: {
       Close: "关闭",
-      Buy: " 购 买 ",
+      Buy: " 微信购买 ",
       Order: "订单中心",
       RedeemCode: "兑换码",
     },
@@ -792,6 +792,9 @@ const cn = {
   User: {
     Name: "个人中心",
   },
+  Sync: {
+    Name: "同步对话",
+  },
   Plugin: {
     Name: "插件管理",
     Enabled: "已开启",
@@ -801,7 +804,7 @@ const cn = {
     Sysmessage: "你是一个助手",
   },
   Mask: {
-    Name: "高级应用",
+    Name: "应用中心",
     Page: {
       Title: "应用中心",
       SubTitle: (count: number) => `${count} 个应用定义`,

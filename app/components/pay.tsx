@@ -135,7 +135,7 @@ export function Pay() {
             {order ? order.title : Locale.PayPage.DefaultName}
           </div>
           <div style={{ lineHeight: "50px" }}>
-            ￥s<span style={{ fontSize: "32px" }}>{order && order.price}</span>
+            ￥<span style={{ fontSize: "32px" }}>{order && order.price}</span>
           </div>
           {qrCode && <img src={qrCode} width={230} height={230} alt="qrcode" />}
           {loading && (

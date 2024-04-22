@@ -311,14 +311,15 @@ export function SideBar(props: {
             __html: websiteConfigStore.mainTitle || "AIChat Next Web",
           }}
           data-tauri-drag-region
+          onClick={() => navigate("/")} // Replace '/' with Path.Home if you have a specific constant for it
         ></div>
-        <div
+        {/*        <div
           className={styles["sidebar-sub-title"]}
           dangerouslySetInnerHTML={{
             __html:
               websiteConfigStore.subTitle || "Build your own AI assistant.",
           }}
-        ></div>
+        ></div>*/}
         <div className={styles["sidebar-logo"] + " no-dark"}>
           {logoLoading ? (
             <></>
@@ -343,6 +344,50 @@ export function SideBar(props: {
           text={shouldNarrow ? undefined : Locale.Shop.Name}
           className={styles["sidebar-bar-button"]}
           onClick={() => navigate(Path.Pricing)}
+          shadow
+        />
+      </div>
+      <div className={styles["sidebar-header-bar2"]}>
+        <IconButton
+          icon={<SyncIcon />}
+          //text={shouldNarrow ? undefined : Locale.Home.NewChat}
+          text={shouldNarrow ? undefined : Locale.Sync.Name}
+          className={styles["sidebar-bar-button"]}
+          onClick={async () => {
+            if (!isClickable) return; // 如果按钮不可点击，则直接返回
+            setIsClickable(false); // 点击后立即设置按钮不可点击
+            try {
+              showToast(Locale.Sidebar.synchronizing);
+              const syncResult = await chatStore.syncSessions(authStore.token);
+              if (syncResult) {
+                // 如果同步成功，弹出同步成功的提示
+                navigate(Path.Chat);
+                showToast(Locale.Sidebar.SynchronizationSuccess);
+              } else {
+                // 处理同步失败的情况
+                showToast(Locale.Sidebar.SynchronizationFail);
+              }
+            } catch (error) {
+              // 处理异常情况，例如显示错误信息
+              showToast(Locale.Sidebar.SynchronizationError);
+              console.error("Error syncing sessions:", error);
+            }
+          }}
+          disabled={!isClickable} // 使用 isClickable 状态来禁用或启用按钮
+          //style={{ boxShadow: '0px 3px 5px rgba(0,0,0,0.3)' }}  // 添加阴影效果
+          shadow
+        />
+        <IconButton
+          icon={<MaskIcon />}
+          text={shouldNarrow ? undefined : Locale.Mask.Name}
+          className={styles["sidebar-bar-button"]}
+          onClick={() => {
+            if (config.dontShowMaskSplashScreen !== true) {
+              navigate(Path.NewChat, { state: { fromHome: true } });
+            } else {
+              navigate(Path.Masks, { state: { fromHome: true } });
+            }
+          }}
           shadow
         />
       </div>
@@ -385,38 +430,6 @@ export function SideBar(props: {
               <IconButton icon={<SettingsIcon />} shadow />
             </Link>
           </div>
-
-          <div className={styles["sidebar-action"]}>
-            <IconButton
-              icon={<SyncIcon />}
-              //text={shouldNarrow ? undefined : Locale.Home.NewChat}
-              onClick={async () => {
-                if (!isClickable) return; // 如果按钮不可点击，则直接返回
-                setIsClickable(false); // 点击后立即设置按钮不可点击
-                try {
-                  showToast(Locale.Sidebar.synchronizing);
-                  const syncResult = await chatStore.syncSessions(
-                    authStore.token,
-                  );
-                  if (syncResult) {
-                    // 如果同步成功，弹出同步成功的提示
-                    navigate(Path.Chat);
-                    showToast(Locale.Sidebar.SynchronizationSuccess);
-                  } else {
-                    // 处理同步失败的情况
-                    showToast(Locale.Sidebar.SynchronizationFail);
-                  }
-                } catch (error) {
-                  // 处理异常情况，例如显示错误信息
-                  showToast(Locale.Sidebar.SynchronizationError);
-                  console.error("Error syncing sessions:", error);
-                }
-              }}
-              disabled={!isClickable} // 使用 isClickable 状态来禁用或启用按钮
-              //style={{ boxShadow: '0px 3px 5px rgba(0,0,0,0.3)' }}  // 添加阴影效果
-            />
-          </div>
-
           {props.noticeTitle || props.noticeContent ? (
             <div className={styles["sidebar-action"]}>
               <IconButton

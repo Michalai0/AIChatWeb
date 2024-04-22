@@ -1,7 +1,7 @@
 import cn from "./cn";
 import en from "./en";
 import tw from "./tw";
-import id from "./id";
+/*import id from "./id";
 import fr from "./fr";
 import es from "./es";
 import it from "./it";
@@ -14,7 +14,7 @@ import no from "./no";
 import cs from "./cs";
 import ko from "./ko";
 import ar from "./ar";
-import bn from "./bn";
+import bn from "./bn";*/
 import { merge } from "../utils/merge";
 
 import type { LocaleType } from "./cn";

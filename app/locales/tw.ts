@@ -399,12 +399,12 @@ const tw: PartialLocaleType = {
     PricingPageSubTitle1: "其他支付方式請到",
     PricingPageSubTitle2: "兌換",
     PricingPageUrlTitle: "兌換頁面",
-    CurrencySymbol: "≈HK$ ",
+    CurrencySymbol: "￥",
     Title: "充值",
     SubTitle: "暢享與AI聊天的樂趣",
     Actions: {
       Close: "關閉",
-      Buy: " 購 買 ",
+      Buy: " 微信購買 ",
       Order: "訂單中心",
       RedeemCode: "兌換碼",
     },
@@ -484,7 +484,7 @@ const tw: PartialLocaleType = {
     CreatTime: "創建時間：",
     OrderNum: "訂單號：……",
     Status: "狀態：",
-    CurrencySymbol: "≈HK$ ",
+    CurrencySymbol: "￥",
     Title: "訂單中心",
     NoOrder: "暫無訂單",
     Loading: "請稍候……",
@@ -704,6 +704,9 @@ const tw: PartialLocaleType = {
   User: {
     Name: "個人中心",
   },
+  Sync: {
+    Name: "同步對話",
+  },
   Plugin: {
     Name: "外掛",
     Enabled: "已開啟",
@@ -711,7 +714,7 @@ const tw: PartialLocaleType = {
   },
   FineTuned: { Sysmessage: "你是一個助手" },
   Mask: {
-    Name: "面具",
+    Name: "應用中心",
     Page: {
       Title: "預設角色面具",
       SubTitle: (count: number) => `${count} 個預設角色定義`,

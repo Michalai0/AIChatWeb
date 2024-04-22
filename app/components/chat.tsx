@@ -723,7 +723,31 @@ export function ChatActions(props: {
   };
 
   const modelSelectorRef = useRef(null);
-
+  const disallowedModelUUIDs = [
+    "gpts diagrams.show me",
+    "gpts CV writer",
+    "gpts Consensus",
+    "gpts excel expert",
+    "gpts math solver",
+    "gpts1",
+    "gpts2",
+    "gpts3",
+    "gpts4",
+    "gpts5",
+  ]; // 替换为实际允许的模型 names
+  const excludedIds = [
+    "m-f32ea6cd-c9b9-4a9b-98e2-305a5c644caf",
+    "m-ff2be453-ba1c-4255-8481-b48ada400855",
+    "m-c76cc4e9-9c5a-4d55-bdbd-e3264ebdf871",
+    "m-9e44a40f-9b5a-4d33-87e8-5e61b813130b",
+    "m-54962f46-04a5-458b-bfbf-1b79cceeb08f",
+    "m-9faad19f-5fa9-4dec-bf53-d363516bd940",
+    "m-730c6c1e-b3aa-4376-ab53-e96af663dd5e",
+    "m-ee00a3e4-8059-416f-95d3-e9f384f6f4db",
+    "m-bd2c659e-1ecc-4c28-a47d-dfbd54c342ce",
+    "m-9faad19f-5fa9-4dec-bf53-d363516bd940",
+  ]; // 假设这是不想渲染的 ID 列表
+  const session = chatStore.currentSession();
   return (
     <div className={styles["chat-input-actions"]}>
       {couldStop && (
@@ -798,7 +822,7 @@ export function ChatActions(props: {
         }}
       />
 
-      {!props.assistant && (
+      {!props.assistant && !excludedIds.includes(session.mask.id) && (
         <ChatAction
           ref={modelSelectorRef}
           onClick={() => setShowModelSelector(true)}
@@ -817,12 +841,14 @@ export function ChatActions(props: {
       {showModelSelector && (
         <Selector
           defaultSelectedValue={currentModel.name}
-          items={availableModels.map((m) => ({
-            title: m.name,
-            subTitle: m.desc,
-            icon: m.avatarEmoji ? <Avatar avatar={m.avatarEmoji} /> : <></>,
-            value: m.name,
-          }))}
+          items={availableModels
+            .filter((m) => !disallowedModelUUIDs.includes(m.name))
+            .map((m) => ({
+              title: m.name,
+              subTitle: m.desc,
+              icon: m.avatarEmoji ? <Avatar avatar={m.avatarEmoji} /> : <></>,
+              value: m.name,
+            }))}
           onClose={() => setShowModelSelector(false)}
           onSelection={async (s) => {
             if (s.length === 0) return;
@@ -2050,14 +2076,14 @@ function _Chat(props: {
                     className={styles["window-action-button"]}
                     icon={<CartIcon />}
                     bordered
-                    text="服务订阅"
+                    text={Locale.Shop.Name}
                     onClick={() => navigate(Path.Pricing)}
                   />
                   <IconButton
                     className={styles["window-action-button"]}
                     icon={<UserIcon />}
                     bordered
-                    text="个人中心"
+                    text={Locale.User.Name}
                     onClick={() => navigate(Path.Profile)}
                   />
                   <IconButton

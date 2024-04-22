@@ -37,6 +37,7 @@ const uuidsByLanguage = {
     "420430d9-17bb-4cad-965b-62ff168748f3",
     "5ffee32b-18e6-4d31-8696-1b3af49b5d2a",
     "d3282e87-3283-40c5-a23c-fade1ced8470",
+    "65a901b1-c02f-4cdd-88da-00261f2df85f",
   ], // 简体中文
 
   "zh-HK": [
@@ -50,6 +51,7 @@ const uuidsByLanguage = {
     "49091b70-94ec-4279-a16a-aa3ec5d8d508",
     "9e96a799-bcfe-4154-b4cb-31ba1312fe6a",
     "90769fa3-fe1e-47ad-8daf-f44684cf9bc1",
+    "406c8f37-0ec8-4255-9da5-b6f9692b3bd7",
   ], // 繁体中文
 
   "en-HK": [
@@ -467,14 +469,14 @@ export function Pricing() {
               <List key={item.uuid}>
                 <DangerousListItem title={item.title} subTitle={item.subTitle}>
                   <div style={{ minWidth: "100px" }}>
-                    {currentLanguage !== "zh-CN" ? (
+                    {/*                    {currentLanguage !== "zh-CN" ? (
                       <div
                         style={{
                           margin: "10px",
                           fontSize: "24px",
                           textAlign: "center",
                           position: "relative", // 确保父容器是相对定位
-                          paddingBottom: "15px", // 增加底部内边距以适应小字
+                          //paddingBottom: "15px", // 增加底部内边距以适应小字
                         }}
                       >
                         {Locale.PricingPage.CurrencySymbol}
@@ -491,19 +493,18 @@ export function Pricing() {
                           {Locale.PricingPage.BaseCurrency}
                         </div>
                       </div>
-                    ) : (
-                      <div
-                        style={{
-                          margin: "10px",
-                          fontSize: "24px",
-                          textAlign: "center",
-                          position: "relative", // 确保父容器是相对定位
-                        }}
-                      >
-                        {Locale.PricingPage.CurrencySymbol}
-                        {item.price}
-                      </div>
-                    )}
+                    ) : (*/}
+                    <div
+                      style={{
+                        margin: "10px",
+                        fontSize: "24px",
+                        textAlign: "center",
+                        position: "relative", // 确保父容器是相对定位
+                      }}
+                    >
+                      {Locale.PricingPage.CurrencySymbol}
+                      {item.price}
+                    </div>
                     <div style={{ marginBottom: "15px" }}>
                       <IconButton
                         text={Locale.PricingPage.Actions.Buy}

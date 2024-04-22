@@ -18,7 +18,7 @@ export function ModelConfigList(props: {
   const { availableModels } = useWebsiteConfigStore();
   return (
     <>
-      <ListItem title={Locale.Settings.Model}>
+      {/*      <ListItem title={Locale.Settings.Model}>
         <Select
           value={
             props.modelConfig.model + "\u0000" + props.modelConfig.contentType
@@ -43,7 +43,7 @@ export function ModelConfigList(props: {
             </option>
           ))}
         </Select>
-      </ListItem>
+      </ListItem>*/}
       <ListItem
         title={Locale.Settings.Temperature.Title}
         subTitle={Locale.Settings.Temperature.SubTitle}
