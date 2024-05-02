@@ -452,17 +452,17 @@ const en: LocaleType = {
     BaseCurrency: "Settlement in CNY",
     ClickToPay: "Click to Pay",
     PaymentPrompt:
-      "Order has been created, please click the button below to proceed to payment (WeChat Pay)",
+      "Order has been created, please click the button below to proceed to payment",
     PricingPageTitle: "Subscriptions Purchase",
     PricingPageSubTitle1: "Other Payment Methods Please Go To ",
     PricingPageSubTitle2: " Redeem",
     PricingPageUrlTitle: "Redemption Page",
-    CurrencySymbol: "￥",
+    CurrencySymbol: "HK$",
     Title: "Recharge",
     SubTitle: "Enjoy the fun of chatting with AI",
     Actions: {
       Close: "Close",
-      Buy: "WeChat Pay",
+      Buy: "Purchase",
       Order: "Order Center",
       RedeemCode: "Redeem Code",
     },
@@ -476,6 +476,7 @@ const en: LocaleType = {
     ChoosePayChannel: "Please select a payment method",
   },
   PayPage: {
+    PaymentMethod: "AlipayHK.webp",
     DefaultName: " Subscription Purchased",
     CurrentOrder: "Current Order:",
     OrderStatus: {
@@ -488,7 +489,7 @@ const en: LocaleType = {
       cancelled: "Cancelled",
       deleted: "Deleted",
     },
-    PayPrompt: "Please use WeChat to scan and pay",
+    PayPrompt: "Please use the corresponding APP to scan the QR code to pay.",
     PayTittle: "Order Payment",
     PaidSuccess: "Payment Successful",
     Actions: {
@@ -542,7 +543,7 @@ const en: LocaleType = {
     CreatTime: "Creation Time: ",
     OrderNum: "Order Number: ...",
     Status: "Status: ",
-    CurrencySymbol: "￥ ",
+    CurrencySymbol: "HK$",
     Title: "Order Center",
     NoOrder: "No orders available",
     Loading: "Please wait...",

@@ -118,18 +118,18 @@ export function showPayChannelChooser(channels: string[]) {
           {[
             {
               key: "alipay",
-              icon: "alipay.ico",
-              cnName: "支付宝",
+              icon: Locale.PayPage.PaymentMethod,
+              //cnName: "支付宝",
             },
             {
               key: "wxpay",
-              icon: "wxpay.ico",
-              cnName: "微信",
+              icon: "wechatpay.jpg",
+              //cnName: "微信",
             },
             {
               key: "qqpay",
-              icon: "qqpay.ico",
-              cnName: "钱包",
+              icon: "stripe.ico",
+              //cnName: "Stripe",
             },
           ]
             .filter((c) => channels.includes(c.key))
@@ -144,13 +144,15 @@ export function showPayChannelChooser(channels: string[]) {
                   className={styles["pay-channel-item"]}
                 >
                   <img
-                    style={{ width: "20px", height: "20px" }}
+                    style={{ width: "100%", height: "100%" }}
                     src={"/" + channel.icon}
                   />
-                  {channel.cnName}
                 </div>
               );
             })}
+        </div>
+        <div className={styles["pay-stripe"]}>
+          <p>- Stripe For Credit Card -</p>
         </div>
       </Modal>,
     );
@@ -302,6 +304,7 @@ export function Pricing() {
     console.log("buy pkg", pkg);
     const inWechat = isInWechat();
     const inMobile = isMobile();
+    //console.log(isMobile() ? 'Mobile device detected.' : 'Not a mobile device.');
     const url = "/order";
     const BASE_URL = process.env.BASE_URL;
     const mode = process.env.BUILD_MODE;
@@ -336,6 +339,7 @@ export function Pricing() {
           } else {
             const message = Locale.PricingPage.BuyFailedCause + res.message;
             showToast(message);
+            //console.log(message);
           }
           return;
         }
@@ -351,9 +355,15 @@ export function Pricing() {
               navigate(Path.Pay + "?uuid=" + order.uuid);
             }
           } else if (order.payChannel === "yizhifu") {
-            router.push(order.payUrl);
+            if (
+              order.payUrl.startsWith("weixin://wxpay/bizpayurl") ||
+              order.payUrl.startsWith("https://qr.alipay.com/")
+            ) {
+              navigate(Path.Pay + "?uuid=" + order.uuid);
+            } else {
+              router.push(order.payUrl);
+            }
           } else {
-            // lantu
             if (inWechat || inMobile) {
               if (inWechat) {
                 // showToast('window.open navigate to ' + order.payUrl)

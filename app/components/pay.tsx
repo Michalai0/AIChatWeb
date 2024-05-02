@@ -1,7 +1,10 @@
 import { useState, useEffect } from "react";
+import QRCode from "qrcode.react";
 import { useLocation, useNavigate } from "react-router-dom";
 import NextImage from "next/image";
 import WechatPayLogo from "../icons/wechat-pay-logo.png";
+import AlipayLogo from "../icons/alipay-logo.png";
+import AlipayLogoHK from "../icons/alipay-logo-hk.jpg";
 
 import styles from "./pay.module.scss";
 
@@ -18,9 +21,8 @@ import { showToast } from "./ui-lib";
 export function Pay() {
   const navigate = useNavigate();
   const authStore = useAuthStore();
-
   const { payPageTitle, payPageSubTitle } = useWebsiteConfigStore();
-
+  const [paymentMethod, setPaymentMethod] = useState(WechatPayLogo); // 假设有一个初始值
   const location = useLocation();
   const params = new URLSearchParams(location.search);
   const orderUuid = params.get("uuid");
@@ -49,6 +51,13 @@ export function Pay() {
         console.log("order", order);
         setOrder(order);
         setLastOrderState(order.state);
+        if (order.payUrl.startsWith("https://qr.alipay.com/")) {
+          if (Locale.Language === "zh-CN") {
+            setPaymentMethod(AlipayLogo);
+          } else {
+            setPaymentMethod(AlipayLogoHK);
+          }
+        }
         if (order.state === 5) {
           // STATE_REMOTE_CREATED
           setQrCode(order.payUrl);
@@ -102,7 +111,7 @@ export function Pay() {
       clearInterval(timer);
     };
   }, [qrCode]);
-
+  console.log(paymentMethod.src); // 在组件渲染之前打印值
   return (
     <ErrorBoundary>
       <div className="window-header">
@@ -126,18 +135,17 @@ export function Pay() {
       <div className={styles["pay"]}>
         <div className={styles["container"]}>
           <NextImage
-            src={WechatPayLogo.src}
-            width={127}
-            height={27}
+            src={paymentMethod.src}
+            width={130}
+            height={37}
             alt="wechat-pay"
           />
           <div style={{ marginTop: "10px" }}>
             {order ? order.title : Locale.PayPage.DefaultName}
           </div>
           <div style={{ lineHeight: "50px" }}>
-            ￥<span style={{ fontSize: "32px" }}>{order && order.price}</span>
+            HK$<span style={{ fontSize: "32px" }}>{order && order.price}</span>
           </div>
-          {qrCode && <img src={qrCode} width={230} height={230} alt="qrcode" />}
           {loading && (
             <div
               style={{
@@ -150,6 +158,15 @@ export function Pay() {
             >
               Loading
             </div>
+          )}
+          {qrCode && !loading && (
+            <QRCode
+              value={qrCode}
+              size={230}
+              level={"H"}
+              includeMargin={true}
+              style={{ margin: "auto", display: "block" }}
+            />
           )}
           <div className={styles["bottom"]}>{Locale.PayPage.PayPrompt}</div>
         </div>

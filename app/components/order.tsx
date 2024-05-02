@@ -120,7 +120,12 @@ export function Order() {
     if (order.payChannel === "xunhu") {
       router.push(order.payUrl);
     } else if (order.payChannel === "yizhifu") {
-      router.push(order.payUrl);
+      if (order.payUrl.startsWith("weixin://wxpay/bizpayurl")) {
+        navigate(Path.Pay + "?uuid=" + order.uuid);
+      } else {
+        navigate(Path.Pay + "?uuid=" + order.uuid);
+        //router.push(order.payUrl);
+      }
     } else {
       if (order.payAgent === "wechat") {
         if (inWechat) {
